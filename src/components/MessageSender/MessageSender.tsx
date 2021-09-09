@@ -8,7 +8,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {readRecord} from '../../utilities/localStorageService';
 import {getTime12Hourse, getTime24hours} from '../../utilities/common';
 
-interface ImessageSenderDispatchProps{
+interface IMessageSenderDispatchProps{
     sendMessage: (message: {
         from: string, 
         content: string,
@@ -48,7 +48,7 @@ export class MessageSender extends React.Component {
     }
     private handleKeyUp = (e: KeyboardEvent) => {
         e = e || event;
-        this.pressedKeyMap[e.key] = e.type === 'keydown';
+        this.pressedKeysMap[e.key] = e.type === 'keydown';
 
         if(readRecord('ctrlEnterSending') !== 'On'){
             this.sendOnPressEnter();
@@ -74,4 +74,45 @@ export class MessageSender extends React.Component {
             return;
         }
     };
+
+    private handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
+        this.setState({ chatMessage: e.currentTarget.value});
+    };
+
+    private handleClick = () => {
+        this.sendChatMessage();
+        this.cleanMessageInput();
+    };
+    private sendChatMessage = (): void => {
+        const {username, chatMessage} = this.state;
+        if(chatMessage !== ''){
+            //@ts-ignore
+            this.props.sendMessage({
+                from: username,
+                content: chatMessage,
+                time: this.getTime()
+            });
+        }
+    };
+
+    private cleanMessageInput = (): void => {
+        this.setState({ chatMessage: ''});
+        if((this.messagesInputRef.current as HTMLInputElement)){
+            (this.messagesInputRef.current as HTMLInputElement).focus();
+        }
+    };
+
+    private getTime = (): string => {
+        return readRecord('clockMode') === '12' ? getTime12Hourse(): getTime24hours();
+    };
 }
+
+const mapDispatchToProps = (dispatch: Dispatch<any>): IMessageSenderDispatchProps => ({
+    sendMessage: (message: {
+        from: string,
+        content: string,
+        time: string
+    }) => dispatch(sendMessage(message)),
+});
+
+export default connect(null, mapDispatchToProps)(MessageSender);
