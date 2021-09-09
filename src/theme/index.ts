@@ -2,7 +2,7 @@ import * as styledComponents from 'styled-components';
 
 const {
     default: styled,
-    css, keyframe, ThemeProvider
+    css, keyframes, ThemeProvider
 } = styledComponents as styledComponents.ThemedStyledComponentsModule<IThemeInterface>;
 
 export interface IThemeInterface{
@@ -19,4 +19,7 @@ export const darkTheme = {
     primaryDarkColor: '1#e5266',
     secondaryDarkColor: '#111111',
     messageBackgroundColor: '#3d3d3c',
-}
+};
+
+export default styled;
+export {css, keyframes, ThemeProvider};
