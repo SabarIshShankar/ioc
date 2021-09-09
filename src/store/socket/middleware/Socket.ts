@@ -25,7 +25,9 @@ export default class Socket {
     public connect = (user: string, port: string) => {
         this.user = user;
         this.port = port;
-        this.socket = io.connect();
+        const host = `http://192.168.0.220:${port}`; // Running from local network
+        this.socket = io.connect(host);
+        //this.socket = io.connect();
         this.socket.on(EVENTS.CONNECT, this.onConnected);
     };
 
