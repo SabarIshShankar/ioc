@@ -1,6 +1,6 @@
 import * as React from 'react';
 import RadioGroup from '../common/RadioGroup';
-import StyledClockModeSelector from '.StyledClockModeSelector';
+import StyledClockModeSelector from './StyledClockModeSelector';
 import {IAppContext} from '../../utilities/TranslationsProvider';
 
 import {readRecord, storeToLocalStorage} from '../../utilities/localStorageService';
