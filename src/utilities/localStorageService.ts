@@ -40,4 +40,25 @@ export const clearAll = (): void => localStorage.clear();
 
 export const hasStoredItem = (): boolean => localStorage.length > 0;
 
-export const isLocalStoragesupported = (): boolean => !!window.localStorage;
+export const isLocalStorageSupported = (): boolean => !!window.localStorage;
+
+
+export const storeToLocalStorageDebounced = debounce((key: string, value: string): void => {
+    if(isLocalStorageSupported()){
+        if(readRecord(key)){
+            updateRecord(key, value);
+        } else {
+            createRecord(key, value);
+        }
+    }
+}, 1500, {leading: false});
+
+export const storeToLocalStorage = (key: string, value: string): void => {
+    if(isLocalStorageSupported()){
+        if(readRecord(key)){
+            updateRecord(key, value);
+        } else {
+            createRecord(key, value);
+        }
+    }
+}
