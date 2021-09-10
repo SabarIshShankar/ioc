@@ -62,5 +62,62 @@ export class Navigation extends React.Component<INavProps, INavState>{
     public render(){
         const {appContext} = this.props;
         const {shouldBlink, unreadMessages} = this.state;
+
+        return appContext && (
+            <StyledNavigation>
+                <li>
+                    <NavLink exact={true} activeClassName='active' className={shouldBlink ? 'blinking':'no-blinking'}
+                    onClick={this.clearNotifications}
+                    to='/chat'>
+                    <FontAwesomeIcon icon={faComment} color="white" size="lg"/>
+                    <UnreadMessagesCounter count={unreadMessages}/>
+                    <span>{appContext.nav.chatTabLabel}</span>
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink activeClassName='active' to='/settings'>
+                        <FontAwesomeIcon icon={faCog} color="white" size="lg"/>
+                        <span>{appContext.nav.settingsTabLabel}</span>
+                    </NavLink>
+                </li>
+            </StyledNavigation>
+        );
     }
+
+    private startBlinking = (): void => {
+        this.setState({
+            shouldBlink: true
+        });
+    };
+
+    private stopBlinking = (): void => {
+        this.setState({
+            shouldBlink: false
+        });
+    };
+
+    private updateUnreadMessagesCount = () => {
+        this.setState({
+            unreadMessages: this.state.receivedUnreadMessages.length
+        });
+    };
+
+    private clearNotifications = () => {
+        this.setState({
+            unreadMessages: 0,
+            receivedUnreadMessages: []
+        });
+        this.stopBlinking();
+    };
 }
+
+const mapStateToProps = (state: any) => ({
+    messages: state.messageState.messages,
+    username: state.messageState.username,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<any>): INavDispatchProps => ({
+    connectToSockets: () => dispatch(connectSocket())
+});
+
+export default withTranslations(connect(mapStateToProps, mapDispatchToProps)(Navigation));
