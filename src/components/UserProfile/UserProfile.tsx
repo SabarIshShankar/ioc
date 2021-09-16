@@ -35,6 +35,6 @@ export class UserProfile extends React.Component<{translations: IAppContext}>{
 }
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     changeUsername: (username: string) => dispatch(changeUsername(username))
-});
-
-export default connect(null, mapDispatchToProps)(UserProfile);
+  });
+  
+  export default connect(null, mapDispatchToProps)(UserProfile);
