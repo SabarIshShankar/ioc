@@ -1,6 +1,6 @@
 import * as React from 'react';
 import StyledRadioGroup from './StyledRadioGroup';
-interface IRadioGroups{
+interface IRadioGroupProps{
     leftRadioLabel: string;
     leftRadioValue: string;
     rightRadioLabel: string;
