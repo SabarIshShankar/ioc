@@ -1,7 +1,8 @@
 import * as React from 'react';
 import {readRecord} from './localStorageService';
 import { darkTheme, ThemeProvider } from '../theme';
-
+import * as translationsDE from '../translations/translations-de.json';
+import * as translationsEN from '../translations/translations-en.json';
 export interface IAppContext{
     clockDisplay: string;
     clockModes: {
